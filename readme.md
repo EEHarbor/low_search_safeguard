@@ -38,4 +38,4 @@ When the search is not allowed, the user will be redirected back to the search f
 ## Links
 
 - [Low Search](http://gotolow.com/addons/low-search)
-- [Download Low Search Safeguard](https://github.com/lodewijk/low_search_safeguard/archive/master.zip)
+- [Download Low Search Safeguard](https://github.com/low/low_search_safeguard/archive/master.zip)
