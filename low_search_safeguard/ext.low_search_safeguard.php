@@ -36,7 +36,7 @@ class Low_search_safeguard_ext {
 	 * @access      public
 	 * @var         string
 	 */
-	public $version = '0.9.0';
+	public $version = '0.9.1';
 
 	/**
 	 * Extension description
@@ -182,7 +182,7 @@ class Low_search_safeguard_ext {
 		// Check for HTML in the keywords
 		// -------------------------------------------
 
-		if ($this->settings['allow_html'] == 'n')
+		if ( ! empty($data['keywords']) && $this->settings['allow_html'] == 'n')
 		{
 			if ($data['keywords'] != strip_tags($data['keywords']))
 			{
@@ -194,7 +194,7 @@ class Low_search_safeguard_ext {
 		// Check for URLs in the keywords
 		// -------------------------------------------
 
-		if ($this->settings['allow_urls'] == 'n')
+		if ( ! empty($data['keywords']) && $this->settings['allow_urls'] == 'n')
 		{
 			if (preg_match('#https?://#', $data['keywords']))
 			{
@@ -221,15 +221,18 @@ class Low_search_safeguard_ext {
 		// Check for blacklist
 		// -------------------------------------------
 
-		if ($blacklist = array_unique(array_filter(preg_split('/(\s|\n)/', $this->settings['blacklist']))))
+		if ( ! empty($data['keywords']))
 		{
-			foreach ($blacklist AS $word)
+			if ($blacklist = array_unique(array_filter(preg_split('/(\s|\n)/', $this->settings['blacklist']))))
 			{
-				$word = preg_quote($word, '#');
-
-				if (preg_match("#\b{$word}\b#i", $data['keywords']))
+				foreach ($blacklist AS $word)
 				{
-					$this->_abort();
+					$word = preg_quote($word, '#');
+
+					if (preg_match("#\b{$word}\b#i", $data['keywords']))
+					{
+						$this->_abort();
+					}
 				}
 			}
 		}
